@@ -1,0 +1,96 @@
+from abc import ABC, abstractmethod
+
+
+class User:
+    def __init__(self, user_id, name, phone):
+        self.__user_id = user_id
+        self.__name = name
+        self.__phone = phone
+
+    def get_user_id(self):
+        return self.__user_id
+
+    def get_name(self):
+        return self.__name
+
+    def get_phone(self):
+        return self.__phone
+
+    def set_phone(self, phone):
+        self.__phone = phone
+
+
+class Restaurant:
+    def __init__(self, name):
+        self.name = name
+
+
+class Food:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+
+class Order:
+    def __init__(self, customer, restaurant):
+        self.customer = customer
+        self.restaurant = restaurant
+        self.items = []
+
+    def add_food(self, food):
+        self.items.append(food)
+
+    def calculate_total(self):
+        return sum(food.price for food in self.items)
+
+    def display_order(self):
+        print("\nOrder Details")
+        print("Customer:", self.customer.get_name())
+        print("Restaurant:", self.restaurant.name)
+        print("Food Items:")
+        for food in self.items:
+            print(f"{food.name} - ₹{food.price}")
+        print("Total Amount: ₹", self.calculate_total())
+
+
+class Payment(ABC):
+    def process_payment(self, amount):
+        pass
+
+
+class UpiPayment(Payment):
+    def process_payment(self, amount):
+        print(f"UPI Payment Successful. Paid ₹{amount}")
+
+
+class CardPayment(Payment):
+    def process_payment(self, amount):
+        print(f"Card Payment Successful. Paid ₹{amount}")
+
+
+class CashPayment(Payment):
+    def process_payment(self, amount):
+        print(f"Cash on Delivery. Collect ₹{amount}")
+
+
+customer = Customer(101, "Rahul", "9876543210")
+partner = DeliveryPartner(201, "Arun", "9123456780")
+
+restaurant = Restaurant("Spicy Kitchen")
+
+food1 = Food("Rasam", 250)
+food2 = Food("Sambar", 150)
+food3 = Food("Curd", 50)
+
+order = Order(customer, restaurant)
+order.add_food(food1)
+order.add_food(food2)
+order.add_food(food3)
+
+customer.display()
+partner.display()
+
+order.display_order()
+
+payment = UpiPayment()
+payment.process_payment(order.calculate_total())
