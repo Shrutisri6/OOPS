@@ -1,0 +1,36 @@
+from abc import ABC, abstractmethod
+
+class Notification(ABC):
+    def send(self, message):
+        pass
+
+class EmailNotification(Notification):
+    def send(self, message):
+        print("Email Notification:", message)
+
+class SMSNotification(Notification):
+    def send(self, message):
+        print("SMS Notification:", message)
+
+class WhatsAppNotification(Notification):
+    def send(self, message):
+        print("WhatsApp Notification:", message)
+
+class PushNotification(Notification):
+    def send(self, message):
+        print("Push Notification:", message)
+
+def send_notification(notification, message):
+    notification.send(message)
+
+notifications = [
+    EmailNotification(),
+    SMSNotification(),
+    WhatsAppNotification(),
+    PushNotification()
+]
+
+message = "Your order has been successfully placed!"
+
+for notification in notifications:
+    send_notification(notification, message)
